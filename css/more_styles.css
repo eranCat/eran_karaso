@@ -1,0 +1,57 @@
+/* ------------------------------------------------- */
+.project-card {
+    border: 1px solid #ddd;
+    background-color: #e7dafc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: rotate(0deg);
+}
+.project-card:hover {
+    transform: translateY(-5px) scale(105%);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.project-card h3 {
+    margin-top: 0;
+}
+.project-card .subheading {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.project-card .subheading i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+@keyframes fadeInUpRotate {
+    from {
+        opacity: 0;
+        transform: translateY(20px) rotate(-2deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.card-btn {
+    border-radius: 20px;
+    padding: 0.4em 1.2em;
+    background-color: #38c282;
+    color: white;
+}
+
+.card-btn:hover{
+    background-color: #32ad74;
+}
+
+.fa-pr{
+    padding-right: 10px;
+}
