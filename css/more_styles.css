@@ -1,4 +1,23 @@
 /* ------------------------------------------------- */
+
+/* === Tabbed navigation === */
+/* Sections are hidden by default; JS shows the active one. */
+/* If JS is disabled, sections are all visible (graceful fallback). */
+section.resume-section {
+    display: none;
+}
+section.resume-section.active-section {
+    display: flex;
+}
+
+/* Active nav link indicator */
+#sideNav .navbar-nav .nav-link.active {
+    color: #fff !important;
+    border-left: 3px solid #fff;
+    padding-left: calc(1rem - 3px);
+}
+
+/* === Project cards === */
 .project-card {
     border: 1px solid #ddd;
     background-color: #e7dafc;
@@ -30,6 +49,7 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 }
+
 @keyframes fadeInUpRotate {
     from {
         opacity: 0;
@@ -47,11 +67,9 @@
     background-color: #38c282;
     color: white;
 }
-
-.card-btn:hover{
+.card-btn:hover {
     background-color: #32ad74;
 }
-
-.fa-pr{
+.fa-pr {
     padding-right: 10px;
 }
