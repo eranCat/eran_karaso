@@ -278,30 +278,12 @@ section {
 @keyframes sk { 0%,100%{opacity:.4} 50%{opacity:.85} }
 .proj-enhancing { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(212,175,55,.45); animation: sk 1.2s ease infinite; }
 
-/* ─── HEATMAP ─── */
-#github { background: linear-gradient(170deg, rgba(7,6,15,1) 0%, rgba(25,17,55,.5) 100%); }
-.heatmap-outer { overflow-x: auto; padding-bottom: 12px; }
-.heatmap-month-row { display: flex; gap: 3px; width: max-content; margin-bottom: 6px; }
-.heatmap-month-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(221,221,221,.35); width: 14px; min-width: 14px; }
-.heatmap { display: flex; gap: 3px; width: max-content; }
-.hm-col { display: flex; flex-direction: column; gap: 3px; }
-.hm-cell {
-  width: 12px; height: 12px; border-radius: 2px;
-  background: rgba(255,255,255,.05);
-  transition: background .2s, transform .2s;
-  cursor: default;
-}
-.hm-cell:hover { transform: scale(1.4); z-index: 1; outline: 1px solid rgba(212,175,55,.5); }
-.hm-cell[data-c="1"] { background: rgba(212,175,55,.2); }
-.hm-cell[data-c="2"] { background: rgba(212,175,55,.4); }
-.hm-cell[data-c="3"] { background: rgba(212,175,55,.65); }
-.hm-cell[data-c="4"] { background: #D4AF37; box-shadow: 0 0 8px rgba(212,175,55,.5); }
-.hm-legend { display: flex; gap: 4px; align-items: center; margin-top: 12px; }
-.hm-legend-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(221,221,221,.3); }
+/* ─── HEATMAP NOTE (reused in error msg) ─── */
 .hm-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(221,221,221,.28); margin-top: 10px; line-height: 1.5; }
 
 /* ─── EDUCATION ─── */
-#education { background: linear-gradient(170deg, rgba(25,17,55,.5) 0%, rgba(7,6,15,1) 100%); }
+#education { background: linear-gradient(170deg, rgba(25,17,55,.5) 0%, rgba(7,6,15,1) 100%); min-height: unset; padding-bottom: 60px; }
+#skills { min-height: unset; padding-bottom: 80px; }
 .edu-list { display: grid; gap: 14px; }
 .edu-card {
   display: grid; grid-template-columns: auto 1fr; gap: 0 20px;
@@ -374,7 +356,6 @@ footer {
     <li><a href="#about" class="active">About</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
-    <li><a href="#github">Activity</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#skills">Skills</a></li>
   </ul>
@@ -478,15 +459,6 @@ footer {
   </div>
 </section>
 
-<!-- ─── GITHUB ACTIVITY ─── -->
-<section id="github">
-  <div class="content">
-    <div class="sec-label fade-in">Contributions</div>
-    <h2 class="sec-title fade-in">GitHub <span>Activity</span></h2>
-    <div class="fade-in" id="heatmap-container"><div class="proj-enhancing">Loading activity…</div></div>
-  </div>
-</section>
-
 <!-- ─── EDUCATION ─── -->
 <section id="education">
   <div class="content">
@@ -501,22 +473,6 @@ footer {
           <div class="edu-desc">GPA: 92 / 100. Data structures, algorithms, discrete mathematics, probability &amp; statistics, software engineering, databases.</div>
         </div>
       </div>
-      <div class="edu-card">
-        <div class="edu-year">2018–19</div>
-        <div>
-          <div class="edu-school">HackerU</div>
-          <div class="edu-prog">Application Developer — Android, iOS &amp; Web</div>
-          <div class="edu-desc">Native mobile and web development, REST APIs, Java fundamentals. Oracle Java 8 certificate.</div>
-        </div>
-      </div>
-      <div class="edu-card">
-        <div class="edu-year">2015–16</div>
-        <div>
-          <div class="edu-school">Ort College</div>
-          <div class="edu-prog">Software Technician — CS &amp; Programming</div>
-          <div class="edu-desc">Data structures in C, algorithms, assembly, SQL, and a Java game project for Windows OS.</div>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -527,8 +483,8 @@ footer {
     <div class="sec-label fade-in">Stack</div>
     <h2 class="sec-title fade-in">Skills</h2>
     <div class="skills-grid fade-in">
-      <div class="skill-block"><div class="skill-cat">Frontend</div><ul class="skill-items"><li>React</li><li>TypeScript</li><li>JavaScript</li><li>HTML / CSS</li><li>Vite</li></ul></div>
-      <div class="skill-block"><div class="skill-cat">Backend</div><ul class="skill-items"><li>Node.js</li><li>Python</li><li>FastAPI</li><li>REST APIs</li><li>Firebase</li><li>SSE</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Frontend</div><ul class="skill-items"><li>React</li><li>TypeScript</li><li>JavaScript</li><li>HTML / CSS</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Backend</div><ul class="skill-items"><li>Node.js</li><li>Python</li><li>FastAPI</li><li>REST APIs</li><li>Firebase</li></ul></div>
       <div class="skill-block"><div class="skill-cat">Mobile</div><ul class="skill-items"><li>Android (Kotlin)</li><li>iOS (Swift)</li><li>Jetpack Compose</li></ul></div>
       <div class="skill-block"><div class="skill-cat">Infra</div><ul class="skill-items"><li>Docker</li><li>Git / GitHub</li><li>Chrome Extensions</li><li>SQL</li></ul></div>
       <div class="skill-block"><div class="skill-cat">Other</div><ul class="skill-items"><li>C++ / C / Java</li><li>Assembly / VBA</li><li>Hebrew (native)</li><li>English (fluent)</li></ul></div>
@@ -687,103 +643,10 @@ async function loadGH() {
       }
     });
 
-    buildHeatmap();
   } catch(err) {
     console.error(err);
     document.getElementById('proj-grid').innerHTML = '<p class="hm-note">Could not load GitHub data — API rate limit or network error.</p>';
   }
-}
-
-async function buildHeatmap() {
-  const container = document.getElementById('heatmap-container');
-  let commitDates = {};
-  try {
-    const events = await fetch(`https://api.github.com/users/${GH}/events/public?per_page=100`).then(r=>r.json());
-    if (Array.isArray(events)) {
-      events.forEach(ev=>{
-        if(ev.type==='PushEvent'){
-          const date=ev.created_at.slice(0,10);
-          commitDates[date]=(commitDates[date]||0)+(ev.payload?.commits?.length||1);
-        }
-      });
-    }
-  } catch(e) {}
-
-  const today=new Date();
-  const start=new Date(today);
-  start.setDate(today.getDate()-364);
-  start.setDate(start.getDate()-start.getDay());
-
-  const weeks=[];
-  const d=new Date(start);
-  while(d<=today){
-    const week=[];
-    for(let i=0;i<7;i++){
-      const key=d.toISOString().slice(0,10);
-      week.push({date:key,c:Math.min(commitDates[key]||0,4)});
-      d.setDate(d.getDate()+1);
-    }
-    weeks.push(week);
-  }
-
-  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  let lastM=-1;
-  const labels=weeks.map(w=>{
-    const m=new Date(w[0].date).getMonth();
-    if(m!==lastM){lastM=m;return MONTHS[m];}
-    return '';
-  });
-
-  const monthRow=document.createElement('div');
-  monthRow.className='heatmap-month-row';
-  labels.forEach(l=>{
-    const s=document.createElement('div');
-    s.className='heatmap-month-lbl';
-    s.style.width='15px';s.style.minWidth='15px';
-    s.textContent=l;
-    monthRow.appendChild(s);
-  });
-
-  const grid=document.createElement('div');
-  grid.className='heatmap';
-  weeks.forEach(week=>{
-    const col=document.createElement('div');
-    col.className='hm-col';
-    week.forEach(({date,c})=>{
-      const cell=document.createElement('div');
-      cell.className='hm-cell';
-      if(c) cell.setAttribute('data-c',c);
-      cell.title=`${date}: ${c} push event${c!==1?'s':''}`;
-      col.appendChild(cell);
-    });
-    grid.appendChild(col);
-  });
-
-  const legend=document.createElement('div');
-  legend.className='hm-legend';
-  legend.innerHTML=`<span class="hm-legend-lbl">Less</span>`;
-  [0,1,2,3,4].forEach(l=>{
-    const c=document.createElement('div');
-    c.className='hm-cell';c.style.margin='0';
-    if(l) c.setAttribute('data-c',l);
-    legend.appendChild(c);
-  });
-  legend.innerHTML+=`<span class="hm-legend-lbl">More</span>`;
-
-  const note=document.createElement('p');
-  note.className='hm-note';
-  const total=Object.values(commitDates).reduce((s,c)=>s+c,0);
-  note.textContent=`${total} push events visible via public API (last ~90 days). Full year graph requires GitHub auth.`;
-
-  const wrap=document.createElement('div');
-  wrap.className='heatmap-outer';
-  wrap.appendChild(monthRow);
-  wrap.appendChild(grid);
-
-  container.innerHTML='';
-  container.appendChild(wrap);
-  container.appendChild(legend);
-  container.appendChild(note);
 }
 
 loadGH();
