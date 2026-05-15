@@ -604,49 +604,33 @@ async function loadGH() {
       <div class="gh-stat"><span class="gh-stat-val">${user.followers}</span><span class="gh-stat-lbl">Followers</span></div>
     `;
 
-    /* project cards */
-    const filtered = repos
-      .filter(r=>!r.fork && r.name!==GH && r.name!==GH.toLowerCase())
-      .sort((a,b)=>b.stargazers_count-a.stargazers_count || new Date(b.updated_at)-new Date(a.updated_at))
-      .slice(0,9);
+    /* curated project list with hand-written descriptions */
+    const CURATED = [
+      { name: 'docker-project-travel-optimizer', desc: 'Microservices platform that suggests personalised Points of Interest and generates optimised travel routes using the Groq LLM API and Docker.' },
+      { name: 'Yoga-app-ios',                    desc: 'iOS app for yoga teachers and students to discover and schedule classes by location, built in Swift.' },
+      { name: 'Yoga_app_android',                desc: 'Android companion to the yoga platform — browse lessons and events by location, built in Kotlin.' },
+      { name: 'KMP_UI_Medical',                  desc: 'Kotlin Multiplatform medical UI — capstone project, graded 100.' },
+      { name: 'Covid-Detection-app---VoiceUp',   desc: 'Android app with voice analysis and camera-based pulse detection for Covid-19 screening, built in Kotlin.' },
+      { name: 'Voting-app-blockchain',           desc: 'Decentralised voting application on Ethereum with a TypeScript front-end and on-chain tallying.' },
+    ];
+
+    const repoMap = Object.fromEntries(repos.map(r=>[r.name, r]));
+    const filtered = CURATED.map(c=>({ ...repoMap[c.name], _desc: c.desc })).filter(r=>r.html_url);
 
     const grid = document.getElementById('proj-grid');
     grid.innerHTML = filtered.map((r,i)=>`
       <div class="proj-card" id="pc-${i}">
         <div class="proj-top">
           ${r.language?`<div class="lang-dot" style="background:${langColor(r.language)}"></div><span class="lang-label">${r.language}</span>`:''}
-          <span class="proj-stars"><i class="fas fa-star" style="font-size:8px"></i>${r.stargazers_count}</span>
         </div>
-        <div class="proj-name">${r.name.replace(/[-_]/g,' ')}</div>
-        <div class="proj-desc" id="desc-${i}">${
-          r.description && r.description.length > 30
-            ? r.description
-            : '<span class="proj-enhancing">Generating description…</span>'
-        }</div>
+        <div class="proj-name">${(s=>s.charAt(0).toUpperCase()+s.slice(1).toLowerCase())(r.name.replace(/[-_]/g,' '))}</div>
+        <div class="proj-desc">${r._desc}</div>
         <a class="proj-link" href="${r.html_url}" target="_blank" rel="noopener">View on GitHub →</a>
       </div>
     `).join('');
 
     document.querySelectorAll('.proj-card').forEach(c=>{
       c.addEventListener('mouseleave',()=>{ c.style.transform=''; });
-    });
-
-    /* Enhance short/missing descriptions via Claude */
-    const toEnhance = filtered.filter((r,i)=>!r.description||r.description.length<=30).map((r,i)=>({r,i:filtered.indexOf(r)}));
-    toEnhance.forEach(async ({r,i})=>{
-      const el = document.getElementById('desc-'+i);
-      if(!el) return;
-      try {
-        const text = await window.claude.complete(
-          `Write a single crisp sentence (max 20 words) describing this GitHub repo for a developer portfolio. ` +
-          `Repo name: "${r.name}". Language: ${r.language||'unknown'}. ` +
-          `Existing description: "${r.description||'none'}". ` +
-          `Output only the sentence, no quotes.`
-        );
-        el.textContent = text.trim();
-      } catch(e) {
-        el.textContent = r.description || 'A personal project.';
-      }
     });
 
   } catch(err) {
