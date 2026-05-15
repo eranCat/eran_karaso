@@ -53,6 +53,35 @@ window.addEventListener('DOMContentLoaded', () => {
     // --- GitHub repos ---
     const GITHUB_USER = 'eranCat';
     const EXCLUDED_REPOS = new Set(['eranCat']); // profile readme repo
+    const SELECTED_REPO_NAMES = new Set([
+        'Ex03-Daniel-208896761-Vladislav-324586999',
+        'DMT---Proms',
+        'llm-council',
+        'Image-AI-Generator',
+        'linkedin-job-auto-apply',
+        'reeflect',
+        'blockchain-hardhat',
+        'Voting-app-blockchain',
+        'Dapp-blockchain',
+        'mini-chain-nodejs',
+        'hit-blockchain',
+        'testProject',
+        'job-matching-platform',
+        'Cost-Manager-REStful-Web-Services',
+        'KMP_UI_Medical',
+        'C_Intro',
+        'RadioKolEtsion',
+        'Boradcasttutorial',
+        'Retrofit_practice',
+        'apple_rss_feed',
+        'HomiSmartTest',
+        'shopping',
+        'HackeruLibrary',
+        'RadioKolEtsionOld',
+        'CircularTransition',
+    ]);
+
+    console.log('Project section: filtered to selected repos, sorted by size');
 
     // Language → accent color mapping
     const LANG_COLORS = {
@@ -130,12 +159,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const repos = await res.json();
             const filtered = repos
-                .filter(r => !r.fork && !EXCLUDED_REPOS.has(r.name) && !r.private)
+                .filter(r => !r.fork && !EXCLUDED_REPOS.has(r.name) && !r.private && SELECTED_REPO_NAMES.has(r.name))
                 .sort((a, b) => {
-                    // push archived and no-description repos to the end
+                    // show the largest selected repos first, but keep archived repos at the end
                     if (a.archived !== b.archived) return a.archived ? 1 : -1;
-                    return new Date(b.updated_at) - new Date(a.updated_at);
-                });
+                    return b.size - a.size;
+                })
+                .slice(0, 5);
 
             if (filtered.length === 0) throw new Error('No repos');
 
