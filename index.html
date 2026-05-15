@@ -51,7 +51,7 @@ body { background: #07060f; color: #ddd; font-family: 'Poppins', sans-serif; ove
 
 /* ─── HERO MESH BACKGROUND ─── */
 .hero-bg {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background:
     radial-gradient(ellipse 80% 60% at 20% 40%, rgba(96,56,189,.25) 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 80% 70%, rgba(0,217,255,.12) 0%, transparent 55%),
@@ -63,7 +63,7 @@ body { background: #07060f; color: #ddd; font-family: 'Poppins', sans-serif; ove
   100% { filter: hue-rotate(8deg) brightness(1.08); }
 }
 .hero-grid {
-  position: absolute; inset: 0; z-index: 0;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background-image:
     linear-gradient(rgba(212,175,55,.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(212,175,55,.04) 1px, transparent 1px);
@@ -161,31 +161,6 @@ section {
 }
 .soc:hover { background: #D4AF37; color: #07060f; border-color: #D4AF37; box-shadow: 0 0 18px rgba(212,175,55,.3); transform: translateY(-2px); }
 
-/* ─── GITHUB STATS ─── */
-.gh-stats {
-  display: flex; gap: 0;
-  margin-top: 52px;
-  border: 1px solid rgba(212,175,55,.15);
-  border-radius: 6px; overflow: hidden;
-  max-width: 500px;
-  background: rgba(212,175,55,.02);
-}
-.gh-stat {
-  flex: 1; padding: 16px 10px; text-align: center;
-  border-right: 1px solid rgba(212,175,55,.1);
-  position: relative;
-}
-.gh-stat:last-child { border-right: none; }
-.gh-stat-val {
-  font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900;
-  color: #D4AF37; display: block; line-height: 1;
-}
-.gh-stat-lbl {
-  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
-  letter-spacing: .1em; text-transform: uppercase;
-  color: rgba(221,221,221,.35); display: block; margin-top: 4px;
-}
-
 /* ─── SECTION TITLE ─── */
 .sec-label {
   font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
@@ -252,24 +227,17 @@ section {
   cursor: pointer; transition: border-color .35s, box-shadow .35s;
   transform-style: preserve-3d; will-change: transform;
 }
-.proj-card::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,175,55,.1), transparent 60%);
-  opacity: 0; transition: opacity .4s;
-  pointer-events: none;
-  z-index: 0;
-}
-.proj-card:hover { border-color: rgba(212,175,55,.4); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
-.proj-card:hover::before { opacity: 1; }
+.proj-card:hover { border-color: rgba(212,175,55,.3); box-shadow: 0 8px 24px rgba(0,0,0,.3); transform: translateY(-3px); }
 .proj-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.proj-year { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(221,221,221,.25); letter-spacing: .05em; }
 .lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .lang-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(221,221,221,.4); }
 .proj-stars { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(212,175,55,.6); display: flex; align-items: center; gap: 4px; }
 .proj-name { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.2; }
 .proj-desc { font-size: 12.5px; line-height: 1.65; color: rgba(221,221,221,.62); margin-bottom: 14px; min-height: 58px; }
 .proj-link {
-  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
-  letter-spacing: .12em; text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .03em; text-transform: none;
   color: rgba(212,175,55,.7); text-decoration: none;
   border-bottom: 1px solid rgba(212,175,55,.25);
   transition: color .2s, border-color .2s;
@@ -370,7 +338,7 @@ footer {
   <div class="content" style="position:relative;z-index:1;">
     <div class="tagline fade-in">Full Stack Developer · TypeScript · Python · Kotlin · Swift</div>
     <h1 class="hero-name fade-in"><span class="gold" style="font-family: Lato">Eran</span><br/>Karaso</h1>
-    <p class="lead fade-in">~2 years building web applications and microservices end-to-end — React UIs, FastAPI backends, Chrome extensions, native mobile apps. B.Sc. Computer Science from HIT (GPA 92). I learn fastest when there's a real problem to solve.</p>
+    <p class="lead fade-in">Full Stack Developer delivering React UIs, FastAPI backends and native mobile features. B.Sc. Computer Science, HIT (GPA 92). I solve real problems with practical, end-to-end software.</p>
     <div class="avail fade-in"><div class="avail-dot"></div>Open to junior/mid Full Stack · Backend · Frontend — central Israel or remote</div>
     <div class="ctas fade-in">
       <a class="btn btn-gold" href="mailto:eranka12@gmail.com">Get in touch</a>
@@ -380,13 +348,6 @@ footer {
       <a class="soc" href="https://www.linkedin.com/in/eran-karaso-182965176" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
       <a class="soc" href="https://github.com/eranCat" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
       <a class="soc" href="mailto:eranka12@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
-    </div>
-    <!-- GitHub stats populated by JS -->
-    <div class="gh-stats fade-in" id="gh-stats">
-      <div class="gh-stat"><span class="gh-stat-val skel" style="width:36px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Repos</span></div>
-      <div class="gh-stat"><span class="gh-stat-val skel" style="width:28px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Stars</span></div>
-      <div class="gh-stat"><span class="gh-stat-val skel" style="width:52px;height:22px;display:inline-block;font-size:14px;"> </span><span class="gh-stat-lbl">Top Lang</span></div>
-      <div class="gh-stat"><span class="gh-stat-val skel" style="width:28px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Followers</span></div>
     </div>
   </div>
 </section>
@@ -566,23 +527,6 @@ document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
   });
 })();
 
-/* ─── CARD TILT ─── */
-document.addEventListener('mousemove', e => {
-  document.querySelectorAll('.proj-card').forEach(card => {
-    const r = card.getBoundingClientRect();
-    if (e.clientX < r.left-200 || e.clientX > r.right+200 || e.clientY < r.top-200 || e.clientY > r.bottom+200) return;
-    const rx = ((e.clientY - r.top  - r.height/2) / r.height) * 16;
-    const ry = ((e.clientX - r.left - r.width/2)  / r.width)  * -16;
-    const mx = ((e.clientX - r.left)/r.width*100).toFixed(1)+'%';
-    const my = ((e.clientY - r.top)/r.height*100).toFixed(1)+'%';
-    card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-    card.style.setProperty('--mx', mx);
-    card.style.setProperty('--my', my);
-  });
-});
-document.addEventListener('mouseleave', () => {
-  document.querySelectorAll('.proj-card').forEach(c => { c.style.transform=''; });
-});
 
 /* ─── GITHUB API ─── */
 async function loadGH() {
@@ -591,18 +535,6 @@ async function loadGH() {
       fetch(`https://api.github.com/users/${GH}`).then(r=>r.json()),
       fetch(`https://api.github.com/users/${GH}/repos?per_page=100&sort=updated`).then(r=>r.json()),
     ]);
-
-    /* stats */
-    const stars = repos.reduce((s,r)=>s+r.stargazers_count,0);
-    const langMap = {};
-    repos.forEach(r=>{ if(r.language) langMap[r.language]=(langMap[r.language]||0)+1; });
-    const topLang = Object.entries(langMap).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
-    document.getElementById('gh-stats').innerHTML = `
-      <div class="gh-stat"><span class="gh-stat-val">${user.public_repos}</span><span class="gh-stat-lbl">Repos</span></div>
-      <div class="gh-stat"><span class="gh-stat-val">${stars}</span><span class="gh-stat-lbl">Stars</span></div>
-      <div class="gh-stat"><span class="gh-stat-val" style="font-size:${topLang.length>6?'12':'18'}px">${topLang}</span><span class="gh-stat-lbl">Top Lang</span></div>
-      <div class="gh-stat"><span class="gh-stat-val">${user.followers}</span><span class="gh-stat-lbl">Followers</span></div>
-    `;
 
     /* curated project list with hand-written descriptions */
     const CURATED = [
@@ -615,13 +547,14 @@ async function loadGH() {
     ];
 
     const repoMap = Object.fromEntries(repos.map(r=>[r.name, r]));
-    const filtered = CURATED.map(c=>({ ...repoMap[c.name], _desc: c.desc })).filter(r=>r.html_url);
+    const filtered = CURATED.map(c=>({ ...repoMap[c.name], _desc: c.desc })).filter(r=>r.html_url).sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
 
     const grid = document.getElementById('proj-grid');
     grid.innerHTML = filtered.map((r,i)=>`
       <div class="proj-card" id="pc-${i}">
         <div class="proj-top">
           ${r.language?`<div class="lang-dot" style="background:${langColor(r.language)}"></div><span class="lang-label">${r.language}</span>`:''}
+          <span class="proj-year">${new Date(r.created_at).getFullYear()}</span>
         </div>
         <div class="proj-name">${(s=>s.charAt(0).toUpperCase()+s.slice(1).toLowerCase())(r.name.replace(/[-_]/g,' '))}</div>
         <div class="proj-desc">${r._desc}</div>
