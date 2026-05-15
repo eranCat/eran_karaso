@@ -165,7 +165,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (a.archived !== b.archived) return a.archived ? 1 : -1;
                     return b.size - a.size;
                 })
-                .slice(0, 5);
+                .slice(0, 6);
 
             if (filtered.length === 0) throw new Error('No repos');
 
