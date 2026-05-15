@@ -53,35 +53,32 @@ window.addEventListener('DOMContentLoaded', () => {
     // --- GitHub repos ---
     const GITHUB_USER = 'eranCat';
     const EXCLUDED_REPOS = new Set(['eranCat']); // profile readme repo
-    const SELECTED_REPO_NAMES = new Set([
-        'Ex03-Daniel-208896761-Vladislav-324586999',
-        'DMT---Proms',
-        'llm-council',
-        'Image-AI-Generator',
-        'linkedin-job-auto-apply',
-        'reeflect',
-        'blockchain-hardhat',
-        'Voting-app-blockchain',
-        'Dapp-blockchain',
-        'mini-chain-nodejs',
-        'hit-blockchain',
-        'testProject',
-        'job-matching-platform',
-        'Cost-Manager-REStful-Web-Services',
-        'KMP_UI_Medical',
-        'C_Intro',
-        'RadioKolEtsion',
-        'Boradcasttutorial',
-        'Retrofit_practice',
-        'apple_rss_feed',
-        'HomiSmartTest',
-        'shopping',
-        'HackeruLibrary',
-        'RadioKolEtsionOld',
-        'CircularTransition',
-    ]);
 
-    console.log('Project section: filtered to selected repos, sorted by size');
+    // Higher score = more impressive. Signals:
+    //   size        — codebase weight (capped to avoid bias from large assets)
+    //   stars       — community recognition
+    //   forks       — adoption
+    //   has_desc    — project is documented
+    //   topics      — well-tagged projects tend to be more intentional
+    //   recency     — recently touched projects are more relevant
+    //   lang_score  — modern/hireable languages score higher
+    const LANG_SCORE = {
+        'TypeScript': 10, 'Python': 9, 'Kotlin': 8, 'Swift': 8,
+        'JavaScript': 7, 'C#': 6, 'Java': 5, 'Jupyter Notebook': 5,
+        'HTML': 3, 'CSS': 2, 'C++': 4, 'C': 3, 'Shell': 2,
+    };
+
+    function impressivenessScore(r) {
+        const ageMonths = (Date.now() - new Date(r.updated_at)) / (1000 * 60 * 60 * 24 * 30);
+        const recency = Math.max(0, 24 - ageMonths); // up to 24 points for recent activity
+        const size = Math.min(r.size, 5000) / 100;   // up to 50 points, capped
+        const stars = r.stargazers_count * 20;
+        const forks = r.forks_count * 10;
+        const hasDesc = r.description ? 15 : 0;
+        const topicBonus = Math.min((r.topics || []).length, 5) * 3;
+        const lang = LANG_SCORE[r.language] || 0;
+        return size + stars + forks + hasDesc + topicBonus + lang + recency;
+    }
 
     // Language → accent color mapping
     const LANG_COLORS = {
@@ -159,12 +156,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
             const repos = await res.json();
             const filtered = repos
-                .filter(r => !r.fork && !EXCLUDED_REPOS.has(r.name) && !r.private && SELECTED_REPO_NAMES.has(r.name))
-                .sort((a, b) => {
-                    // show the largest selected repos first, but keep archived repos at the end
-                    if (a.archived !== b.archived) return a.archived ? 1 : -1;
-                    return b.size - a.size;
-                })
+                .filter(r => !r.fork && !r.archived && !r.private && !EXCLUDED_REPOS.has(r.name))
+                .sort((a, b) => impressivenessScore(b) - impressivenessScore(a))
                 .slice(0, 6);
 
             if (filtered.length === 0) throw new Error('No repos');
