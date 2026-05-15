@@ -1,262 +1,791 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Eran Karaso — Full Stack Developer based in Holon, Israel. React, TypeScript, Node.js, Python, Docker. Open to junior/mid roles in central Israel or remote."/>
+<meta name="author" content="Eran Karaso"/>
+<meta property="og:title" content="Eran Karaso — Full Stack Developer"/>
+<meta property="og:description" content="Full Stack Developer (React, TypeScript, Node.js, Python). B.Sc. CS from HIT, GPA 92. Based in Holon, Israel."/>
+<meta property="og:type" content="website"/>
+<title>Eran Karaso — Full Stack Developer</title>
+<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lato:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: #07060f; color: #ddd; font-family: 'Poppins', sans-serif; overflow-x: hidden; line-height: 1.6; font-stretch: normal; -webkit-font-smoothing: antialiased; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #07060f; }
+::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description"
-    content="Eran Karaso — Full Stack Developer based in Holon, Israel. React, TypeScript, Node.js, Python, Docker. Open to junior/mid roles in central Israel or remote." />
-  <meta name="author" content="Eran Karaso" />
-  <meta property="og:title" content="Eran Karaso — Full Stack Developer" />
-  <meta property="og:description"
-    content="Full Stack Developer (React, TypeScript, Node.js, Python). B.Sc. CS from HIT, GPA 92. Based in Holon, Israel." />
-  <meta property="og:type" content="website" />
-  <title>Eran Karaso — Full Stack Developer</title>
-  <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
-  <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="css/styles.css" rel="stylesheet" />
-  <link rel="stylesheet" href="css/more_styles.css">
+/* ─── SCROLL PROGRESS ─── */
+#progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 2px;
+  z-index: 999; background: linear-gradient(90deg, #D4AF37, #00D9FF);
+  transform-origin: left; transform: scaleX(0);
+  transition: transform .05s linear;
+}
+
+/* ─── SCENE (floating 3D shapes) ─── */
+#scene {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+  perspective: 1000px;
+}
+.geo {
+  position: absolute; border: 1px solid rgba(212,175,55,.15);
+  animation: geo linear infinite; will-change: transform;
+}
+.geo.sq  { border-radius: 4px; }
+.geo.cir { border-radius: 50%; }
+.geo.dia { border-radius: 2px; }
+@keyframes geo {
+  0%   { opacity:0; transform: perspective(800px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateZ(-40px); }
+  8%   { opacity:.9; }
+  92%  { opacity:.9; }
+  100% { opacity:0; transform: perspective(800px) rotateX(300deg) rotateY(220deg) rotateZ(160deg) translateZ(60px); }
+}
+
+/* ─── HERO MESH BACKGROUND ─── */
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 40%, rgba(96,56,189,.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 70%, rgba(0,217,255,.12) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 55% 20%, rgba(212,175,55,.08) 0%, transparent 50%);
+  animation: meshShift 12s ease-in-out infinite alternate;
+}
+@keyframes meshShift {
+  0%   { filter: hue-rotate(0deg) brightness(1); }
+  100% { filter: hue-rotate(8deg) brightness(1.08); }
+}
+.hero-grid {
+  position: absolute; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(212,175,55,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,175,55,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center; padding: 0 48px; height: 54px;
+  background: rgba(7,6,15,.92); backdrop-filter: blur(16px) saturate(150%);
+  border-bottom: 1px solid rgba(212,175,55,.1);
+}
+.nav-brand {
+  font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900;
+  color: #D4AF37; text-decoration: none; letter-spacing: .04em;
+  display: flex; align-items: center; gap: 10px;
+}
+.nav-brand-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #D4AF37;
+  box-shadow: 0 0 8px rgba(212,175,55,.8);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { box-shadow: 0 0 16px rgba(212,175,55,.4); transform: scale(1.2); } }
+.nav-links { display: flex; gap: 2px; list-style: none; margin-left: auto; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(221,221,221,.45); text-decoration: none;
+  padding: 5px 12px; border-radius: 3px;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover, .nav-links a.active { color: #D4AF37; background: rgba(212,175,55,.09); }
+
+/* ─── SECTIONS ─── */
+section {
+  position: relative; z-index: 1;
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 120px 80px 90px;
+}
+.content { max-width: 1000px; width: 100%; margin: 0 auto; }
+
+/* fade-in via IntersectionObserver */
+.fade-in { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.fade-in.visible { opacity: 1; transform: none; }
+
+/* ─── ABOUT ─── */
+#about { overflow: hidden; }
+.tagline {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(212,175,55,.75); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.tagline::before { content: ''; display: block; width: 32px; height: 1px; background: rgba(212,175,55,.5); }
+.hero-name {
+  font-family: 'Lato', sans-serif;
+  font-size: clamp(56px, 9vw, 108px);
+  font-weight: 900; line-height: .95; color: #fff;
+  letter-spacing: -.01em; margin-bottom: 28px;
+}
+.hero-name .gold { color: #D4AF37; }
+.hero-name .dim  { color: rgba(255,255,255,.28); font-size: .5em; font-weight: 700; letter-spacing: -.01em; vertical-align: super; }
+.lead {
+  font-size: 15px; line-height: 1.8; color: rgba(221,221,221,.78);
+  max-width: 540px; margin-bottom: 14px;
+}
+.avail {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+  color: rgba(212,175,55,.9); margin-bottom: 36px;
+}
+.avail-dot { width: 6px; height: 6px; border-radius: 50%; background: #38c282; box-shadow: 0 0 6px rgba(56,194,130,.8); animation: pulse 2s ease infinite; }
+.ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+.btn {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  padding: 12px 28px; border-radius: 3px;
+  text-decoration: none; border: 1px solid; cursor: pointer;
+  transition: all .3s ease; display: inline-block;
+}
+.btn-gold { background: #D4AF37; color: #07060f; border-color: #D4AF37; }
+.btn-gold:hover { background: transparent; color: #D4AF37; box-shadow: 0 0 24px rgba(212,175,55,.22); }
+.btn-outline { background: transparent; color: rgba(221,221,221,.7); border-color: rgba(221,221,221,.2); }
+.btn-outline:hover { border-color: #D4AF37; color: #D4AF37; background: rgba(212,175,55,.06); }
+.socials { display: flex; gap: 10px; }
+.soc {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(212,175,55,.3);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(212,175,55,.7); text-decoration: none; font-size: 13px;
+  transition: all .3s ease;
+}
+.soc:hover { background: #D4AF37; color: #07060f; border-color: #D4AF37; box-shadow: 0 0 18px rgba(212,175,55,.3); transform: translateY(-2px); }
+
+/* ─── GITHUB STATS ─── */
+.gh-stats {
+  display: flex; gap: 0;
+  margin-top: 52px;
+  border: 1px solid rgba(212,175,55,.15);
+  border-radius: 6px; overflow: hidden;
+  max-width: 500px;
+  background: rgba(212,175,55,.02);
+}
+.gh-stat {
+  flex: 1; padding: 16px 10px; text-align: center;
+  border-right: 1px solid rgba(212,175,55,.1);
+  position: relative;
+}
+.gh-stat:last-child { border-right: none; }
+.gh-stat-val {
+  font-family: 'Lato', sans-serif; font-size: 24px; font-weight: 900;
+  color: #D4AF37; display: block; line-height: 1;
+}
+.gh-stat-lbl {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(221,221,221,.35); display: block; margin-top: 4px;
+}
+
+/* ─── SECTION TITLE ─── */
+.sec-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(212,175,55,.5); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-label::before { content: ''; display: block; width: 20px; height: 1px; background: rgba(212,175,55,.4); }
+.sec-title {
+  font-family: 'Lato', sans-serif; font-size: clamp(30px, 4vw, 48px);
+  font-weight: 900; color: #fff; letter-spacing: 0;
+  margin-bottom: 48px; line-height: 1;
+}
+.sec-title span { color: #D4AF37; }
+
+/* ─── EXPERIENCE (timeline) ─── */
+#experience { background: linear-gradient(170deg, rgba(25,17,55,.7) 0%, rgba(7,6,15,1) 65%); }
+.timeline { position: relative; display: grid; gap: 0; }
+.timeline::before {
+  content: ''; position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 1px; background: linear-gradient(to bottom, transparent, rgba(212,175,55,.3) 15%, rgba(212,175,55,.3) 85%, transparent);
+}
+.tl-item {
+  display: grid; grid-template-columns: 32px 1fr;
+  gap: 0 28px; padding-bottom: 44px; position: relative;
+}
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: #D4AF37; border: 2px solid #07060f;
+  box-shadow: 0 0 12px rgba(212,175,55,.5);
+  position: relative; z-index: 1; margin-top: 6px;
+  justify-self: center;
+}
+.tl-body {
+  padding: 20px 24px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 6px;
+  transition: background .3s, border-color .3s, transform .4s cubic-bezier(.34,.1,.64,.9), box-shadow .4s;
+  transform-style: preserve-3d;
+}
+.tl-body:hover {
+  background: rgba(212,175,55,.06);
+  border-color: rgba(212,175,55,.25);
+  transform: perspective(800px) rotateY(-2deg) translateX(6px);
+  box-shadow: -12px 16px 40px rgba(0,0,0,.4);
+}
+.tl-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+.tl-role { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 900; color: #fff; }
+.tl-date { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .08em; color: rgba(221,221,221,.35); white-space: nowrap; padding-top: 4px; }
+.tl-where { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: #D4AF37; margin-bottom: 14px; }
+.tl-bullets { list-style: none; display: grid; gap: 6px; }
+.tl-bullets li { font-size: 13px; line-height: 1.65; color: rgba(221,221,221,.72); padding-left: 18px; position: relative; }
+.tl-bullets li::before { content: '→'; position: absolute; left: 0; color: rgba(212,175,55,.6); font-size: 12px; top: 1px; }
+
+/* ─── PROJECTS ─── */
+.proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+.proj-card {
+  padding: 22px 22px 18px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 8px; position: relative; overflow: hidden;
+  cursor: pointer; transition: border-color .35s, box-shadow .35s;
+  transform-style: preserve-3d; will-change: transform;
+}
+.proj-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,175,55,.1), transparent 60%);
+  opacity: 0; transition: opacity .4s;
+}
+.proj-card:hover { border-color: rgba(212,175,55,.4); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+.proj-card:hover::before { opacity: 1; }
+.proj-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.lang-label { font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(221,221,221,.4); }
+.proj-stars { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(212,175,55,.6); display: flex; align-items: center; gap: 4px; }
+.proj-name { font-family: 'Lato', sans-serif; font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 8px; line-height: 1.2; }
+.proj-desc { font-size: 12.5px; line-height: 1.65; color: rgba(221,221,221,.62); margin-bottom: 14px; min-height: 58px; }
+.proj-link {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: rgba(212,175,55,.7); text-decoration: none;
+  border-bottom: 1px solid rgba(212,175,55,.25);
+  transition: color .2s, border-color .2s;
+  display: inline-block;
+}
+.proj-link:hover { color: #D4AF37; border-color: #D4AF37; }
+.proj-skeleton { background: rgba(255,255,255,.06); border-radius: 3px; animation: sk 1.4s ease infinite; }
+@keyframes sk { 0%,100%{opacity:.4} 50%{opacity:.85} }
+.proj-enhancing { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(212,175,55,.45); animation: sk 1.2s ease infinite; }
+
+/* ─── HEATMAP ─── */
+#github { background: linear-gradient(170deg, rgba(7,6,15,1) 0%, rgba(25,17,55,.5) 100%); }
+.heatmap-outer { overflow-x: auto; padding-bottom: 12px; }
+.heatmap-month-row { display: flex; gap: 3px; width: max-content; margin-bottom: 6px; }
+.heatmap-month-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(221,221,221,.35); width: 14px; min-width: 14px; }
+.heatmap { display: flex; gap: 3px; width: max-content; }
+.hm-col { display: flex; flex-direction: column; gap: 3px; }
+.hm-cell {
+  width: 12px; height: 12px; border-radius: 2px;
+  background: rgba(255,255,255,.05);
+  transition: background .2s, transform .2s;
+  cursor: default;
+}
+.hm-cell:hover { transform: scale(1.4); z-index: 1; outline: 1px solid rgba(212,175,55,.5); }
+.hm-cell[data-c="1"] { background: rgba(212,175,55,.2); }
+.hm-cell[data-c="2"] { background: rgba(212,175,55,.4); }
+.hm-cell[data-c="3"] { background: rgba(212,175,55,.65); }
+.hm-cell[data-c="4"] { background: #D4AF37; box-shadow: 0 0 8px rgba(212,175,55,.5); }
+.hm-legend { display: flex; gap: 4px; align-items: center; margin-top: 12px; }
+.hm-legend-lbl { font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(221,221,221,.3); }
+.hm-note { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(221,221,221,.28); margin-top: 10px; line-height: 1.5; }
+
+/* ─── EDUCATION ─── */
+#education { background: linear-gradient(170deg, rgba(25,17,55,.5) 0%, rgba(7,6,15,1) 100%); }
+.edu-list { display: grid; gap: 14px; }
+.edu-card {
+  display: grid; grid-template-columns: auto 1fr; gap: 0 20px;
+  padding: 20px 24px;
+  background: rgba(0,217,255,.025);
+  border: 1px solid rgba(0,217,255,.09);
+  border-radius: 6px;
+  transition: border-color .3s, background .3s, transform .35s;
+}
+.edu-card:hover { border-color: rgba(0,217,255,.3); background: rgba(0,217,255,.06); transform: translateX(8px); }
+.edu-year { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; color: rgba(0,217,255,.5); writing-mode: vertical-rl; letter-spacing: .1em; align-self: center; }
+.edu-school { font-family: 'Lato', sans-serif; font-size: 16px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+.edu-prog { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: #00D9FF; margin-bottom: 8px; }
+.edu-desc { font-size: 12.5px; color: rgba(221,221,221,.6); line-height: 1.6; }
+
+/* ─── SKILLS ─── */
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px; }
+.skill-block {
+  padding: 16px 18px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  transition: border-color .3s, background .3s, transform .35s cubic-bezier(.34,.1,.64,.9);
+  transform-style: preserve-3d;
+}
+.skill-block:hover {
+  border-color: rgba(212,175,55,.35);
+  background: rgba(212,175,55,.05);
+  transform: perspective(500px) rotateY(-5deg) rotateX(3deg) translateY(-4px);
+}
+.skill-cat { font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 900; color: #D4AF37; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .02em; }
+.skill-items { list-style: none; font-size: 12px; line-height: 1.85; color: rgba(221,221,221,.7); }
+.skill-items li { display: flex; align-items: center; gap: 6px; }
+.skill-items li::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: rgba(212,175,55,.45); flex-shrink: 0; }
+
+/* ─── FOOTER ─── */
+footer {
+  position: relative; z-index: 1;
+  padding: 28px 80px; text-align: center;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  color: rgba(221,221,221,.25); letter-spacing: .06em;
+  border-top: 1px solid rgba(255,255,255,.05);
+  background: rgba(0,0,0,.4);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  section { padding: 100px 24px 60px; }
+  nav { padding: 0 20px; }
+  .nav-links a { padding: 5px 8px; font-size: 9px; }
+  .hero-name { font-size: 52px; }
+  .timeline::before { display: none; }
+  .tl-item { grid-template-columns: 1fr; }
+  .tl-dot { display: none; }
+}
+
+/* ─── SKEL placeholder ─── */
+.skel { display: inline-block; background: rgba(255,255,255,.06); border-radius: 3px; animation: sk 1.4s ease infinite; }
+</style>
 </head>
+<body>
 
-<body id="page-top">
+<div id="progress"></div>
+<div id="scene"></div>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-    <a class="navbar-brand js-scroll-trigger" href="#page-top">
-      <span class="d-block d-lg-none">Eran Karaso</span>
-      <span class="d-none d-lg-block">
-        <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="assets/img/profile.png" alt="Eran Karaso" />
-        <span class="sidebar-name">Eran Karaso</span>
-        <span class="sidebar-title">Full Stack Developer</span>
-      </span>
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav">
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Experience</a></li>
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#projects">Projects</a></li>
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Education</a></li>
-        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Skills</a></li>
-      </ul>
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#about"><div class="nav-brand-dot"></div>Eran Karaso</a>
+  <ul class="nav-links">
+    <li><a href="#about" class="active">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#github">Activity</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+  </ul>
+</nav>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="content" style="position:relative;z-index:1;">
+    <div class="tagline fade-in">Full Stack Developer · TypeScript · Python · Kotlin · Swift</div>
+    <h1 class="hero-name fade-in"><span class="gold" style="font-family: Lato">Eran</span><br/>Karaso</h1>
+    <p class="lead fade-in">~2 years building web applications and microservices end-to-end — React UIs, FastAPI backends, Chrome extensions, native mobile apps. B.Sc. Computer Science from HIT (GPA 92). I learn fastest when there's a real problem to solve.</p>
+    <div class="avail fade-in"><div class="avail-dot"></div>Open to junior/mid Full Stack · Backend · Frontend — central Israel or remote</div>
+    <div class="ctas fade-in">
+      <a class="btn btn-gold" href="mailto:eranka12@gmail.com">Get in touch</a>
+      <a class="btn btn-outline" href="#projects">View GitHub ↓</a>
     </div>
-  </nav>
-
-  <div class="container-fluid p-0">
-
-    <!-- About -->
-    <section class="resume-section" id="about">
-      <div class="resume-section-content">
-        <div class="about-badge">
-          <span class="badge-dot"></span> Open to work
-        </div>
-        <h1 class="mb-0"><span class="text-primary">Eran</span> Karaso</h1>
-        <div class="about-meta mb-4">
-          <span class="about-role">Full Stack Developer</span>
-          <span class="about-sep">·</span>
-          <span class="about-location">
-            <i class="fas fa-map-marker-alt" aria-hidden="true"></i> Holon, Israel
-          </span>
-          <span class="about-sep">·</span>
-          <a href="mailto:eranka12@gmail.com">eranka12@gmail.com</a>
-        </div>
-        <p class="lead mb-4">
-          Full Stack Developer with ~2 years of professional experience building web applications with React,
-          TypeScript, Node.js, and Python. B.Sc. Computer Science from HIT (GPA&nbsp;92). I build things
-          end-to-end — from FastAPI microservices to React UIs to Chrome extensions — and I learn fastest when
-          there's a real problem to solve.
-        </p>
-        <p class="mb-5">
-          <strong>Available for</strong> junior/mid Full Stack, Backend, or Frontend roles in central Israel
-          (Tel Aviv, Ramat Gan, Petah Tikva, Herzliya, Holon, Rehovot) or remote.
-        </p>
-        <div class="social-icons">
-          <a class="social-icon" href="https://www.linkedin.com/in/eran-karaso-182965176" target="_blank"
-            rel="noopener" aria-label="LinkedIn">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a class="social-icon" href="https://github.com/eranCat" target="_blank" rel="noopener"
-            aria-label="GitHub">
-            <i class="fab fa-github"></i>
-          </a>
-          <a class="social-icon" href="mailto:eranka12@gmail.com" aria-label="Email">
-            <i class="fas fa-envelope"></i>
-          </a>
-        </div>
-      </div>
-    </section>
-    <hr class="m-0" />
-
-    <!-- Experience -->
-    <section class="resume-section" id="experience">
-      <div class="resume-section-content">
-        <h2 class="mb-5">Experience</h2>
-
-        <div class="timeline">
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">Full Stack Developer</h3>
-            <div class="subheading mb-3">Reeflect — Surfing &amp; water-sports platform (Freelance)</div>
-            <ul>
-              <li>Built features across the stack using React, TypeScript, Node.js, and Firebase.</li>
-              <li>Designed and integrated REST APIs powering the user-facing dashboard.</li>
-              <li>Implemented the authentication flow, animated UI components (ToggleSelector), and dashboard search experience.</li>
-              <li>Scraped Windy.com for Israeli beach weather data (waves, wind speed) using Python and asyncio; stored results in Firebase for real-time display.</li>
-            </ul>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">Jan – Sep 2025</span></div>
-        </div>
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">Design Automation Developer</h3>
-            <div class="subheading mb-3">Fuga Technologies</div>
-            <ul>
-              <li>Built Python and VBA automation for Adobe InDesign workflows, eliminating hours of manual work per production cycle.</li>
-              <li>Developed dynamic scripting for Adobe plugins as part of the startup's product roadmap.</li>
-              <li>Delivered multiple projects in parallel under tight deadlines in a startup environment.</li>
-            </ul>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2021 – 2022</span></div>
-        </div>
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">Android Application Developer</h3>
-            <div class="subheading mb-3">Hakol Letova (VoiceUp)</div>
-            <ul>
-              <li>Owned the full Android app lifecycle from research and planning through release.</li>
-              <li>Built voice analysis and camera-based pulse detection features in Kotlin.</li>
-            </ul>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2020</span></div>
-        </div>
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">IT Support</h3>
-            <div class="subheading mb-3">'One' — for Teva</div>
-            <ul>
-              <li>Resolved end-user issues for a large enterprise client under SLA pressure.</li>
-              <li>Worked as part of a structured support team.</li>
-            </ul>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2021</span></div>
-        </div>
-
-        </div><!-- end .timeline -->
-      </div>
-    </section>
-    <hr class="m-0" />
-
-    <!-- Projects -->
-    <section class="resume-section" id="projects">
-      <div class="my-auto" style="width:100%">
-        <h2 class="mb-5">Projects</h2>
-        <div id="project-grid" class="project-grid" aria-live="polite" aria-label="GitHub repositories">
-          <!-- Skeleton placeholders -->
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-          <div class="project-card project-skeleton" aria-hidden="true"></div>
-        </div>
-        <p id="projects-error" class="projects-error" hidden>Could not load repositories. <a href="https://github.com/eranCat" target="_blank" rel="noopener">View on GitHub</a></p>
-      </div>
-    </section>
-    <hr class="m-0" />
-
-    <!-- Education -->
-    <section class="resume-section" id="education">
-      <div class="resume-section-content">
-        <h2 class="mb-5">Education</h2>
-
-        <div class="timeline">
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">Holon Institute of Technology (HIT)</h3>
-            <div class="subheading mb-3">B.Sc. Computer Science — Full Stack Track</div>
-            <p>GPA: 92 / 100. Coursework included data structures, algorithms, discrete mathematics,
-              probability and statistics, software engineering, and databases.</p>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2022 – 2025</span></div>
-        </div>
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between mb-5">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">HackerU</h3>
-            <div class="subheading mb-3">Application Developer — Android, iOS &amp; Web</div>
-            <p>Native mobile and web development, REST APIs, and Java fundamentals.
-              Oracle Java 8 certificate.</p>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2018 – 2019</span></div>
-        </div>
-
-        <div class="timeline-item d-flex flex-column flex-md-row justify-content-between">
-          <div class="flex-grow-1">
-            <h3 class="mb-0">Ort College</h3>
-            <div class="subheading mb-3">Software Technician — Computer Science &amp; Programming</div>
-            <p>Data structures in C, algorithms, assembly, SQL, and a Java game project for Windows OS.</p>
-          </div>
-          <div class="flex-shrink-0"><span class="text-primary">2015 – 2016</span></div>
-        </div>
-
-        </div><!-- end .timeline -->
-      </div>
-    </section>
-    <hr class="m-0" />
-
-    <!-- Skills -->
-    <section class="resume-section" id="skills">
-      <div class="resume-section-content">
-        <h2 class="mb-5">Skills</h2>
-        <div class="subheading mb-3">Languages &amp; Tools</div>
-        <ul class="list-inline dev-icons">
-          <li class="list-inline-item" title="JavaScript"><i class="fab fa-js-square"></i></li>
-          <li class="list-inline-item" title="HTML5"><i class="fab fa-html5"></i></li>
-          <li class="list-inline-item" title="CSS3"><i class="fab fa-css3-alt"></i></li>
-          <li class="list-inline-item" title="React"><i class="fab fa-react"></i></li>
-          <li class="list-inline-item" title="Node.js"><i class="fab fa-node-js"></i></li>
-          <li class="list-inline-item" title="Python"><i class="fab fa-python"></i></li>
-          <li class="list-inline-item" title="Java"><i class="fab fa-java"></i></li>
-          <li class="list-inline-item" title="Docker"><i class="fab fa-docker"></i></li>
-          <li class="list-inline-item" title="Git / GitHub"><i class="fab fa-github"></i></li>
-        </ul>
-        <ul class="fa-ul mb-0">
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Frontend:</strong> React, TypeScript, JavaScript, HTML, CSS, Vite
-          </li>
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Backend:</strong> Node.js, Python, FastAPI, REST APIs, Firebase, Server-Sent Events (SSE)
-          </li>
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Mobile:</strong> Android (Kotlin, Jetpack Compose Multiplatform), iOS (Swift)
-          </li>
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Infrastructure &amp; tooling:</strong> Docker, Docker Compose, Chrome Extensions (MV3), Google Sheets / Apps Script
-          </li>
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Other languages:</strong> C#, C++, C, Java, SQL, Assembly, VBA
-          </li>
-          <li><i class="fa fa-li fa-check"></i>
-            <strong>Languages:</strong> Hebrew (native), English (fluent)
-          </li>
-        </ul>
-      </div>
-    </section>
-
+    <div class="socials fade-in">
+      <a class="soc" href="https://www.linkedin.com/in/eran-karaso-182965176" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a class="soc" href="https://github.com/eranCat" target="_blank" rel="noopener" title="GitHub"><i class="fab fa-github"></i></a>
+      <a class="soc" href="mailto:eranka12@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+    </div>
+    <!-- GitHub stats populated by JS -->
+    <div class="gh-stats fade-in" id="gh-stats">
+      <div class="gh-stat"><span class="gh-stat-val skel" style="width:36px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Repos</span></div>
+      <div class="gh-stat"><span class="gh-stat-val skel" style="width:28px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Stars</span></div>
+      <div class="gh-stat"><span class="gh-stat-val skel" style="width:52px;height:22px;display:inline-block;font-size:14px;"> </span><span class="gh-stat-lbl">Top Lang</span></div>
+      <div class="gh-stat"><span class="gh-stat-val skel" style="width:28px;height:22px;display:inline-block;"> </span><span class="gh-stat-lbl">Followers</span></div>
+    </div>
   </div>
+</section>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/scripts.js?v=2"></script>
-</body>
-</html>
+<!-- ─── EXPERIENCE ─── -->
+<section id="experience">
+  <div class="content">
+    <div class="sec-label fade-in">Work</div>
+    <h2 class="sec-title fade-in">Experience</h2>
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <div class="tl-header"><div class="tl-role">Full Stack Developer</div><div class="tl-date">Jan – Sep 2025</div></div>
+          <div class="tl-where">Reeflect — Surfing &amp; water-sports platform (Freelance)</div>
+          <ul class="tl-bullets">
+            <li>Built features across the stack using React, TypeScript, Node.js, and Firebase.</li>
+            <li>Designed and integrated REST APIs powering the user-facing dashboard.</li>
+            <li>Scraped Windy.com for Israeli beach weather data using Python and asyncio; stored in Firebase for real-time display.</li>
+            <li>Implemented authentication flow, animated UI components, and dashboard search.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <div class="tl-header"><div class="tl-role">Design Automation Developer</div><div class="tl-date">2021 – 2022</div></div>
+          <div class="tl-where">Fuga Technologies</div>
+          <ul class="tl-bullets">
+            <li>Built Python and VBA automation for Adobe InDesign workflows, eliminating hours of manual work per production cycle.</li>
+            <li>Developed dynamic scripting for Adobe plugins as part of the startup's product roadmap.</li>
+            <li>Delivered multiple projects in parallel under tight deadlines in a startup environment.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <div class="tl-header"><div class="tl-role">Android Application Developer</div><div class="tl-date">2020</div></div>
+          <div class="tl-where">Hakol Letova (VoiceUp)</div>
+          <ul class="tl-bullets">
+            <li>Owned the full Android app lifecycle from research and planning through release.</li>
+            <li>Built voice analysis and camera-based pulse detection features in Kotlin.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-body">
+          <div class="tl-header"><div class="tl-role">IT Support</div><div class="tl-date">2021</div></div>
+          <div class="tl-where">'One' — for Teva</div>
+          <ul class="tl-bullets">
+            <li>Resolved end-user issues for a large enterprise client under SLA pressure.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects">
+  <div class="content">
+    <div class="sec-label fade-in">Open Source</div>
+    <h2 class="sec-title fade-in">GitHub <span>Projects</span></h2>
+    <div class="proj-grid fade-in" id="proj-grid">
+      <!-- skeleton cards -->
+      <div class="proj-card" style="min-height:170px"><div class="proj-skeleton" style="height:10px;width:64px;margin-bottom:10px;border-radius:2px;"></div><div class="proj-skeleton" style="height:18px;width:75%;margin-bottom:8px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:100%;margin-bottom:5px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:80%;border-radius:2px;"></div></div>
+      <div class="proj-card" style="min-height:170px"><div class="proj-skeleton" style="height:10px;width:64px;margin-bottom:10px;border-radius:2px;"></div><div class="proj-skeleton" style="height:18px;width:75%;margin-bottom:8px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:100%;margin-bottom:5px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:80%;border-radius:2px;"></div></div>
+      <div class="proj-card" style="min-height:170px"><div class="proj-skeleton" style="height:10px;width:64px;margin-bottom:10px;border-radius:2px;"></div><div class="proj-skeleton" style="height:18px;width:75%;margin-bottom:8px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:100%;margin-bottom:5px;border-radius:2px;"></div><div class="proj-skeleton" style="height:9px;width:80%;border-radius:2px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── GITHUB ACTIVITY ─── -->
+<section id="github">
+  <div class="content">
+    <div class="sec-label fade-in">Contributions</div>
+    <h2 class="sec-title fade-in">GitHub <span>Activity</span></h2>
+    <div class="fade-in" id="heatmap-container"><div class="proj-enhancing">Loading activity…</div></div>
+  </div>
+</section>
+
+<!-- ─── EDUCATION ─── -->
+<section id="education">
+  <div class="content">
+    <div class="sec-label fade-in">Academic</div>
+    <h2 class="sec-title fade-in">Education</h2>
+    <div class="edu-list fade-in">
+      <div class="edu-card">
+        <div class="edu-year">2022–25</div>
+        <div>
+          <div class="edu-school">Holon Institute of Technology (HIT)</div>
+          <div class="edu-prog">B.Sc. Computer Science — Full Stack Track</div>
+          <div class="edu-desc">GPA: 92 / 100. Data structures, algorithms, discrete mathematics, probability &amp; statistics, software engineering, databases.</div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2018–19</div>
+        <div>
+          <div class="edu-school">HackerU</div>
+          <div class="edu-prog">Application Developer — Android, iOS &amp; Web</div>
+          <div class="edu-desc">Native mobile and web development, REST APIs, Java fundamentals. Oracle Java 8 certificate.</div>
+        </div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-year">2015–16</div>
+        <div>
+          <div class="edu-school">Ort College</div>
+          <div class="edu-prog">Software Technician — CS &amp; Programming</div>
+          <div class="edu-desc">Data structures in C, algorithms, assembly, SQL, and a Java game project for Windows OS.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SKILLS ─── -->
+<section id="skills">
+  <div class="content">
+    <div class="sec-label fade-in">Stack</div>
+    <h2 class="sec-title fade-in">Skills</h2>
+    <div class="skills-grid fade-in">
+      <div class="skill-block"><div class="skill-cat">Frontend</div><ul class="skill-items"><li>React</li><li>TypeScript</li><li>JavaScript</li><li>HTML / CSS</li><li>Vite</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Backend</div><ul class="skill-items"><li>Node.js</li><li>Python</li><li>FastAPI</li><li>REST APIs</li><li>Firebase</li><li>SSE</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Mobile</div><ul class="skill-items"><li>Android (Kotlin)</li><li>iOS (Swift)</li><li>Jetpack Compose</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Infra</div><ul class="skill-items"><li>Docker</li><li>Git / GitHub</li><li>Chrome Extensions</li><li>SQL</li></ul></div>
+      <div class="skill-block"><div class="skill-cat">Other</div><ul class="skill-items"><li>C++ / C / Java</li><li>Assembly / VBA</li><li>Hebrew (native)</li><li>English (fluent)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Eran Karaso &nbsp;·&nbsp; eranka12@gmail.com &nbsp;·&nbsp; github.com/eranCat</footer>
+
+<script>
+const GH = 'eranCat';
+
+/* ─── LANG COLORS ─── */
+const LANG_COLORS = {
+  JavaScript:'#f1e05a', TypeScript:'#3178c6', Python:'#3572A5',
+  Kotlin:'#A97BFF', Swift:'#F05138', Java:'#b07219',
+  HTML:'#e34c26', CSS:'#563d7c', Shell:'#89e051',
+  Dockerfile:'#384d54', 'C++':'#f34b7d', C:'#555555',
+  'C#':'#178600', Go:'#00ADD8', Ruby:'#701516', Rust:'#dea584',
+};
+function langColor(lang) { return LANG_COLORS[lang] || 'rgba(221,221,221,.3)'; }
+
+/* ─── SCROLL PROGRESS ─── */
+const bar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const p = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  bar.style.transform = `scaleX(${Math.min(p,1)})`;
+}, { passive: true });
+
+/* ─── NAV ACTIVE ─── */
+const navAs = document.querySelectorAll('.nav-links a');
+const secs  = document.querySelectorAll('section');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 130) cur = s.id; });
+  navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+}, { passive: true });
+
+/* ─── FADE-IN ─── */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => io.observe(el));
+
+/* ─── FLOATING SHAPES ─── */
+(function(){
+  const scene = document.getElementById('scene');
+  const defs = [
+    { cls:'sq',  count:7, sizes:[50,80,110,150] },
+    { cls:'cir', count:6, sizes:[60,100,160,220] },
+    { cls:'dia', count:5, sizes:[40,70,100] },
+  ];
+  defs.forEach(({cls, count, sizes}) => {
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'geo ' + cls;
+      const sz = sizes[Math.floor(Math.random()*sizes.length)];
+      Object.assign(el.style, {
+        width: sz+'px', height: sz+'px',
+        left: (Math.random()*100)+'%', top: (Math.random()*100)+'%',
+        animationDuration: (16+Math.random()*18)+'s',
+        animationDelay: (-Math.random()*20)+'s',
+        transform: cls==='dia' ? 'rotate(45deg)' : '',
+        borderRadius: cls==='cir' ? '50%' : cls==='sq' ? '3px' : '2px',
+      });
+      scene.appendChild(el);
+    }
+  });
+  document.addEventListener('mousemove', e => {
+    const mx = (e.clientX/window.innerWidth-.5)*12;
+    const my = (e.clientY/window.innerHeight-.5)*8;
+    scene.style.transform = `perspective(1000px) rotateY(${mx}deg) rotateX(${-my}deg)`;
+  });
+})();
+
+/* ─── CARD TILT ─── */
+document.addEventListener('mousemove', e => {
+  document.querySelectorAll('.proj-card').forEach(card => {
+    const r = card.getBoundingClientRect();
+    if (e.clientX < r.left-200 || e.clientX > r.right+200 || e.clientY < r.top-200 || e.clientY > r.bottom+200) return;
+    const rx = ((e.clientY - r.top  - r.height/2) / r.height) * 16;
+    const ry = ((e.clientX - r.left - r.width/2)  / r.width)  * -16;
+    const mx = ((e.clientX - r.left)/r.width*100).toFixed(1)+'%';
+    const my = ((e.clientY - r.top)/r.height*100).toFixed(1)+'%';
+    card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+    card.style.setProperty('--mx', mx);
+    card.style.setProperty('--my', my);
+  });
+});
+document.addEventListener('mouseleave', () => {
+  document.querySelectorAll('.proj-card').forEach(c => { c.style.transform=''; });
+});
+
+/* ─── GITHUB API ─── */
+async function loadGH() {
+  try {
+    const [user, repos] = await Promise.all([
+      fetch(`https://api.github.com/users/${GH}`).then(r=>r.json()),
+      fetch(`https://api.github.com/users/${GH}/repos?per_page=100&sort=updated`).then(r=>r.json()),
+    ]);
+
+    /* stats */
+    const stars = repos.reduce((s,r)=>s+r.stargazers_count,0);
+    const langMap = {};
+    repos.forEach(r=>{ if(r.language) langMap[r.language]=(langMap[r.language]||0)+1; });
+    const topLang = Object.entries(langMap).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+    document.getElementById('gh-stats').innerHTML = `
+      <div class="gh-stat"><span class="gh-stat-val">${user.public_repos}</span><span class="gh-stat-lbl">Repos</span></div>
+      <div class="gh-stat"><span class="gh-stat-val">${stars}</span><span class="gh-stat-lbl">Stars</span></div>
+      <div class="gh-stat"><span class="gh-stat-val" style="font-size:${topLang.length>6?'12':'18'}px">${topLang}</span><span class="gh-stat-lbl">Top Lang</span></div>
+      <div class="gh-stat"><span class="gh-stat-val">${user.followers}</span><span class="gh-stat-lbl">Followers</span></div>
+    `;
+
+    /* project cards */
+    const filtered = repos
+      .filter(r=>!r.fork && r.name!==GH && r.name!==GH.toLowerCase())
+      .sort((a,b)=>b.stargazers_count-a.stargazers_count || new Date(b.updated_at)-new Date(a.updated_at))
+      .slice(0,9);
+
+    const grid = document.getElementById('proj-grid');
+    grid.innerHTML = filtered.map((r,i)=>`
+      <div class="proj-card" id="pc-${i}">
+        <div class="proj-top">
+          ${r.language?`<div class="lang-dot" style="background:${langColor(r.language)}"></div><span class="lang-label">${r.language}</span>`:''}
+          <span class="proj-stars"><i class="fas fa-star" style="font-size:8px"></i>${r.stargazers_count}</span>
+        </div>
+        <div class="proj-name">${r.name.replace(/[-_]/g,' ')}</div>
+        <div class="proj-desc" id="desc-${i}">${
+          r.description && r.description.length > 30
+            ? r.description
+            : '<span class="proj-enhancing">Generating description…</span>'
+        }</div>
+        <a class="proj-link" href="${r.html_url}" target="_blank" rel="noopener">View on GitHub →</a>
+      </div>
+    `).join('');
+
+    document.querySelectorAll('.proj-card').forEach(c=>{
+      c.addEventListener('mouseleave',()=>{ c.style.transform=''; });
+    });
+
+    /* Enhance short/missing descriptions via Claude */
+    const toEnhance = filtered.filter((r,i)=>!r.description||r.description.length<=30).map((r,i)=>({r,i:filtered.indexOf(r)}));
+    toEnhance.forEach(async ({r,i})=>{
+      const el = document.getElementById('desc-'+i);
+      if(!el) return;
+      try {
+        const text = await window.claude.complete(
+          `Write a single crisp sentence (max 20 words) describing this GitHub repo for a developer portfolio. ` +
+          `Repo name: "${r.name}". Language: ${r.language||'unknown'}. ` +
+          `Existing description: "${r.description||'none'}". ` +
+          `Output only the sentence, no quotes.`
+        );
+        el.textContent = text.trim();
+      } catch(e) {
+        el.textContent = r.description || 'A personal project.';
+      }
+    });
+
+    buildHeatmap();
+  } catch(err) {
+    console.error(err);
+    document.getElementById('proj-grid').innerHTML = '<p class="hm-note">Could not load GitHub data — API rate limit or network error.</p>';
+  }
+}
+
+async function buildHeatmap() {
+  const container = document.getElementById('heatmap-container');
+  let commitDates = {};
+  try {
+    const events = await fetch(`https://api.github.com/users/${GH}/events/public?per_page=100`).then(r=>r.json());
+    if (Array.isArray(events)) {
+      events.forEach(ev=>{
+        if(ev.type==='PushEvent'){
+          const date=ev.created_at.slice(0,10);
+          commitDates[date]=(commitDates[date]||0)+(ev.payload?.commits?.length||1);
+        }
+      });
+    }
+  } catch(e) {}
+
+  const today=new Date();
+  const start=new Date(today);
+  start.setDate(today.getDate()-364);
+  start.setDate(start.getDate()-start.getDay());
+
+  const weeks=[];
+  const d=new Date(start);
+  while(d<=today){
+    const week=[];
+    for(let i=0;i<7;i++){
+      const key=d.toISOString().slice(0,10);
+      week.push({date:key,c:Math.min(commitDates[key]||0,4)});
+      d.setDate(d.getDate()+1);
+    }
+    weeks.push(week);
+  }
+
+  const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let lastM=-1;
+  const labels=weeks.map(w=>{
+    const m=new Date(w[0].date).getMonth();
+    if(m!==lastM){lastM=m;return MONTHS[m];}
+    return '';
+  });
+
+  const monthRow=document.createElement('div');
+  monthRow.className='heatmap-month-row';
+  labels.forEach(l=>{
+    const s=document.createElement('div');
+    s.className='heatmap-month-lbl';
+    s.style.width='15px';s.style.minWidth='15px';
+    s.textContent=l;
+    monthRow.appendChild(s);
+  });
+
+  const grid=document.createElement('div');
+  grid.className='heatmap';
+  weeks.forEach(week=>{
+    const col=document.createElement('div');
+    col.className='hm-col';
+    week.forEach(({date,c})=>{
+      const cell=document.createElement('div');
+      cell.className='hm-cell';
+      if(c) cell.setAttribute('data-c',c);
+      cell.title=`${date}: ${c} push event${c!==1?'s':''}`;
+      col.appendChild(cell);
+    });
+    grid.appendChild(col);
+  });
+
+  const legend=document.createElement('div');
+  legend.className='hm-legend';
+  legend.innerHTML=`<span class="hm-legend-lbl">Less</span>`;
+  [0,1,2,3,4].forEach(l=>{
+    const c=document.createElement('div');
+    c.className='hm-cell';c.style.margin='0';
+    if(l) c.setAttribute('data-c',l);
+    legend.appendChild(c);
+  });
+  legend.innerHTML+=`<span class="hm-legend-lbl">More</span>`;
+
+  const note=document.createElement('p');
+  note.className='hm-note';
+  const total=Object.values(commitDates).reduce((s,c)=>s+c,0);
+  note.textContent=`${total} push events visible via public API (last ~90 days). Full year graph requires GitHub auth.`;
+
+  const wrap=document.createElement('div');
+  wrap.className='heatmap-outer';
+  wrap.appendChild(monthRow);
+  wrap.appendChild(grid);
+
+  container.innerHTML='';
+  container.appendChild(wrap);
+  container.appendChild(legend);
+  container.appendChild(note);
+}
+
+loadGH();
+</script>
+</body></html>
