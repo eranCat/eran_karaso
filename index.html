@@ -16,8 +16,7 @@
   <script defer src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-  <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link href="css/styles.css" rel="stylesheet" />
   <link rel="stylesheet" href="css/more_styles.css">
 </head>
@@ -143,74 +142,18 @@
 
     <!-- Projects -->
     <section class="resume-section" id="projects">
-      <div class="my-auto">
+      <div class="my-auto" style="width:100%">
         <h2 class="mb-5">Projects</h2>
-        <div class="project-grid">
-
-          <div class="project-card">
-            <h3 class="mb-0">Travel Optimizer</h3>
-            <div class="subheading mb-3">TypeScript &middot; Python &middot; FastAPI &middot; Docker</div>
-            <p>
-              Microservices platform that suggests personalized Points of Interest and generates optimized travel
-              routes. Uses the Groq LLM API to convert free-form interests into structured POI tags,
-              OpenStreetMap Overpass for POI discovery, and OpenRouteService for route calculation.
-              React + Vite frontend with Server-Sent Events for live progress streaming.
-              Full Docker Compose setup; 5 unit tests passing across backend, LLM, and maps services.
-            </p>
-            <a href="https://github.com/eranCat/docker-project-travel-optimizer" target="_blank" rel="noopener"
-              class="btn card-btn">View Project</a>
-          </div>
-
-          <div class="project-card">
-            <h3 class="mb-0">DMT — PROMs Medical App</h3>
-            <div class="subheading mb-3">Kotlin &middot; Jetpack Compose Multiplatform</div>
-            <p>
-              Cross-platform medical application (Android, iOS, Desktop) for Patient-Reported Outcome Measures.
-              Features digitized cognitive tests including an interactive Clock Drawing Test, questionnaires,
-              therapist-patient messaging, medication tracking, measurement logs, and sensor data collection.
-              Built with Ktor, Room/SQLite, Koin DI, and Firebase push notifications.
-            </p>
-            <a href="https://github.com/eranCat/DMT---Proms" target="_blank" rel="noopener"
-              class="btn card-btn">View Project</a>
-          </div>
-
-          <div class="project-card">
-            <h3 class="mb-0">Yoga Class Platform</h3>
-            <div class="subheading mb-3">Swift (iOS) &middot; Kotlin (Android)</div>
-            <p>
-              Native mobile apps on both platforms connecting yoga teachers and students for location-based
-              class discovery and scheduling. iOS app uses Firebase, SDWebImage, a location picker, and
-              currency layer integration. Both platforms share full feature parity.
-            </p>
-            <a href="https://github.com/eranCat/Yoga-app-ios" target="_blank" rel="noopener"
-              class="btn card-btn">iOS</a>&nbsp;
-            <a href="https://github.com/eranCat/Yoga_app_android" target="_blank" rel="noopener"
-              class="btn card-btn">Android</a>
-          </div>
-
-          <div class="project-card">
-            <h3 class="mb-0">Covid Detection — VoiceUp</h3>
-            <div class="subheading mb-3">Kotlin &middot; Android</div>
-            <p>
-              Android app exploring vocal-biomarker and camera-based pulse detection for Covid-19 screening,
-              built as part of the VoiceUp project at Hakol Letova.
-            </p>
-            <a href="https://github.com/eranCat/Covid-Detection-app---VoiceUp" target="_blank" rel="noopener"
-              class="btn card-btn">View Project</a>
-          </div>
-
-          <div class="project-card">
-            <h3 class="mb-0">Titanic — Machine Learning</h3>
-            <div class="subheading mb-3">Python &middot; Jupyter Notebook</div>
-            <p>
-              Classic Kaggle workflow: exploratory data analysis, feature engineering, model selection,
-              and evaluation on the Titanic survival dataset.
-            </p>
-            <a href="https://github.com/eranCat/TitanicML" target="_blank" rel="noopener"
-              class="btn card-btn">View Project</a>
-          </div>
-
+        <div id="project-grid" class="project-grid" aria-live="polite" aria-label="GitHub repositories">
+          <!-- Skeleton placeholders -->
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
+          <div class="project-card project-skeleton" aria-hidden="true"></div>
         </div>
+        <p id="projects-error" class="projects-error" hidden>Could not load repositories. <a href="https://github.com/eranCat" target="_blank" rel="noopener">View on GitHub</a></p>
       </div>
     </section>
     <hr class="m-0" />

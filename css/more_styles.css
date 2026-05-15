@@ -1,75 +1,393 @@
-/* ------------------------------------------------- */
+/* ================================================
+   Dark Mode Design System — Eran Karaso Portfolio
+   Palette: monochrome + blue accent (#2563EB)
+   Fonts: Archivo (headings) / Space Grotesk (body)
+   ================================================ */
 
-/* === Tabbed navigation === */
-/* Sections are hidden by default; JS shows the active one. */
-/* If JS is disabled, sections are all visible (graceful fallback). */
+:root {
+  --color-bg:        #0f1117;
+  --color-surface:   #1a1d27;
+  --color-surface-2: #22273a;
+  --color-border:    #2e3347;
+  --color-text:      #e8eaf0;
+  --color-text-muted:#8b92a8;
+  --color-accent:    #2563eb;
+  --color-accent-h:  #3b7bff;
+  --color-accent-dim:#1d4ed8;
+  --color-heading:   #f1f3fa;
+  --color-success:   #22c55e;
+  --shadow-card:     0 4px 24px rgba(0,0,0,0.45);
+  --shadow-card-h:   0 8px 32px rgba(37,99,235,0.18);
+  --radius-card:     12px;
+  --transition:      all 0.2s ease;
+}
+
+/* ---- Global ---- */
+body {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  font-family: 'Space Grotesk', system-ui, sans-serif !important;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Archivo', system-ui, sans-serif !important;
+  color: var(--color-heading) !important;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--color-accent);
+  transition: color 0.15s ease;
+}
+a:hover {
+  color: var(--color-accent-h);
+}
+
+hr {
+  border-color: var(--color-border) !important;
+  opacity: 1;
+}
+
+/* ---- Sidebar nav ---- */
+#sideNav {
+  background-color: var(--color-surface) !important;
+  border-right: 1px solid var(--color-border);
+}
+
+#sideNav .navbar-brand .img-profile {
+  border: 3px solid var(--color-border) !important;
+  box-shadow: 0 0 0 4px rgba(37,99,235,0.2);
+}
+
+#sideNav .navbar-nav .nav-item .nav-link {
+  color: var(--color-text-muted) !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  padding: 0.55rem 1.5rem;
+  transition: var(--transition);
+}
+
+#sideNav .navbar-nav .nav-item .nav-link:hover {
+  color: var(--color-text) !important;
+  background-color: rgba(255,255,255,0.05);
+}
+
+#sideNav .navbar-nav .nav-link.active {
+  color: #fff !important;
+  border-left: 3px solid var(--color-accent) !important;
+  padding-left: calc(1.5rem - 3px) !important;
+  background-color: rgba(37,99,235,0.12);
+}
+
+/* ---- Main content ---- */
+.container-fluid {
+  background-color: var(--color-bg);
+}
+
 section.resume-section {
-    display: none;
+  display: none;
+  border-bottom: 1px solid var(--color-border);
 }
 section.resume-section.active-section {
-    display: flex;
+  display: flex;
 }
 
-/* Active nav link indicator */
-#sideNav .navbar-nav .nav-link.active {
-    color: #fff !important;
-    border-left: 3px solid #fff;
-    padding-left: calc(1rem - 3px);
+/* ---- Typography inside sections ---- */
+.text-primary {
+  color: var(--color-accent) !important;
 }
 
-/* === Project cards === */
-.project-card {
-    border: 1px solid #ddd;
-    background-color: #e7dafc;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transform: rotate(0deg);
+.subheading {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted) !important;
 }
-.project-card:hover {
-    transform: translateY(-5px) scale(105%);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+
+p.lead {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  line-height: 1.8;
 }
-.project-card h3 {
-    margin-top: 0;
+
+strong {
+  color: var(--color-heading);
 }
-.project-card .subheading {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+
+/* ---- Social icons ---- */
+.social-icons .social-icon {
+  background-color: var(--color-surface-2) !important;
+  color: var(--color-text-muted) !important;
+  border: 1px solid var(--color-border);
+  transition: var(--transition);
+  cursor: pointer;
 }
-.project-card .subheading i {
-    margin-right: 10px;
-    font-size: 24px;
+.social-icons .social-icon:hover {
+  background-color: var(--color-accent) !important;
+  color: #fff !important;
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(37,99,235,0.35);
 }
+
+/* ---- Dev icons ---- */
+.dev-icons {
+  color: var(--color-text-muted);
+}
+.dev-icons .list-inline-item {
+  transition: color 0.15s ease, transform 0.15s ease;
+  cursor: default;
+}
+.dev-icons .list-inline-item:hover {
+  color: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+/* ---- Skills list ---- */
+.fa-ul li {
+  color: var(--color-text);
+  margin-bottom: 0.4rem;
+}
+.fa-ul .fa-li {
+  color: var(--color-accent);
+}
+
+/* ---- Experience / Education entries ---- */
+.d-flex.flex-column.flex-md-row h3 {
+  color: var(--color-heading) !important;
+}
+.text-primary {
+  color: var(--color-accent) !important;
+}
+.flex-shrink-0 .text-primary {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+ul li {
+  color: var(--color-text);
+  margin-bottom: 0.3rem;
+}
+
+/* ---- Project grid & cards ---- */
 .project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
 }
 
-@keyframes fadeInUpRotate {
-    from {
-        opacity: 0;
-        transform: translateY(20px) rotate(-2deg);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) rotate(0deg);
-    }
+.project-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
 }
 
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-card-h);
+  border-color: var(--color-accent);
+}
+
+.project-card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+  color: var(--color-heading) !important;
+}
+
+.project-card .subheading {
+  font-size: 0.8rem !important;
+  margin-bottom: 12px;
+}
+
+.project-card p {
+  color: var(--color-text-muted);
+  font-size: 0.93rem;
+  line-height: 1.65;
+  flex: 1;
+}
+
+/* ---- Project card buttons ---- */
 .card-btn {
-    border-radius: 20px;
-    padding: 0.4em 1.2em;
-    background-color: #38c282;
-    color: white;
+  display: inline-block;
+  margin-top: 12px;
+  padding: 0.4em 1.2em;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--color-accent) !important;
+  border: 1px solid var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'Space Grotesk', sans-serif;
+  text-decoration: none;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  cursor: pointer;
 }
 .card-btn:hover {
-    background-color: #32ad74;
+  background-color: var(--color-accent);
+  color: #fff !important;
 }
-.fa-pr {
-    padding-right: 10px;
+
+/* ---- Mobile navbar ---- */
+@media (max-width: 991px) {
+  #sideNav {
+    background-color: var(--color-surface) !important;
+  }
+  .navbar-collapse {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+}
+
+/* ---- Skeleton loader ---- */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.project-skeleton {
+  height: 220px;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface) 25%,
+    var(--color-surface-2) 50%,
+    var(--color-surface) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+}
+
+/* ---- Repo card internals ---- */
+.repo-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.repo-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.repo-name {
+  font-size: 1rem !important;
+  font-weight: 600;
+  color: var(--color-accent) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.repo-desc {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  flex: 1;
+  margin-bottom: 10px;
+}
+
+.no-desc {
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.repo-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.repo-topic {
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(37,99,235,0.15);
+  color: var(--color-accent-h);
+  border: 1px solid rgba(37,99,235,0.25);
+}
+
+.repo-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.lang-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.repo-lang {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.repo-stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.repo-stat svg {
+  width: 13px;
+  height: 13px;
+}
+
+.repo-updated {
+  margin-left: auto;
+}
+
+.projects-error {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+.projects-error a {
+  color: var(--color-accent);
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .social-icons .social-icon,
+  .dev-icons .list-inline-item,
+  .card-btn {
+    transition: none;
+  }
+  .project-card:hover,
+  .social-icons .social-icon:hover,
+  .dev-icons .list-inline-item:hover {
+    transform: none;
+  }
 }
