@@ -256,6 +256,8 @@ section {
   content: ''; position: absolute; inset: 0;
   background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,175,55,.1), transparent 60%);
   opacity: 0; transition: opacity .4s;
+  pointer-events: none;
+  z-index: 0;
 }
 .proj-card:hover { border-color: rgba(212,175,55,.4); box-shadow: 0 24px 60px rgba(0,0,0,.5); }
 .proj-card:hover::before { opacity: 1; }
