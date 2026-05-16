@@ -1,51 +1,37 @@
-# Eran Karaso — Personal Resume Site
+# 👨‍💻 Eran Karaso — Portfolio Site
 
-Live at **[erancat.github.io/eran_karaso](https://erancat.github.io/eran_karaso)**
+Personal developer portfolio and resume site, live at **[erancat.github.io/portfolio-site](https://erancat.github.io/portfolio-site)**.
 
-Personal resume and portfolio site built on the [Start Bootstrap Resume](https://startbootstrap.com/theme/resume/) template (Bootstrap 5).
+## About
 
-## Stack
+Full-Stack Developer based in Holon, Israel with a BSc in Computer Science from HIT (GPA 92/100). Experienced in React, TypeScript, Python, FastAPI, Node.js, Firebase, and Docker. Available for junior full-stack, backend, or frontend roles in Israel or remote.
 
-- HTML / CSS / JavaScript
-- Bootstrap 5
-- Font Awesome 6
-- Hosted on GitHub Pages
+## Tech Stack
 
-## Structure
+- **Framework:** Bootstrap 5 (Start Bootstrap template)
+- **Languages:** HTML, CSS, JavaScript
+- **Hosting:** GitHub Pages
+- **Features:** Tabbed navigation, responsive design, project showcase
 
-```
-├── index.html          # Main resume page
-├── css/
-│   ├── styles.css      # Start Bootstrap Resume theme (Bootstrap 5 + custom)
-│   └── more_styles.css # Project cards, additional overrides
-├── js/
-│   └── scripts.js      # Scroll-trigger nav logic
-└── assets/
-    └── img/
-        ├── profile.png  # Profile photo
-        └── favicon.ico
-```
+## Projects Featured
 
-## Sections
-
-- **About** — summary, contact, and social links
-- **Experience** — Reeflect (Full Stack, 2025), Fuga Technologies (Design Automation, 2021–22), Hakol Letova / VoiceUp (Android, 2020), 'One' for Teva (IT Support, 2021)
-- **Projects** — Travel Optimizer, DMT PROMs Medical App, Yoga Class Platform (iOS + Android), Covid Detection, Titanic ML
-- **Education** — HIT B.Sc. Computer Science (GPA 92), HackerU, Ort College
-- **Skills** — React, TypeScript, Node.js, Python, FastAPI, Docker, Kotlin, Swift, and more
+| Project | Stack | Link |
+|---------|-------|------|
+| Travel Optimizer | React, FastAPI, Docker, LLM | [Repo](https://github.com/eranCat/docker-project-travel-optimizer) |
+| Clinical PROMs App | Kotlin Multiplatform, Android/iOS | [Repo](https://github.com/eranCat/clinical-proms-app) |
+| Dapp Blockchain | Solidity, Hardhat, TypeScript | [Repo](https://github.com/eranCat/Dapp-blockchain) |
+| Painter Portfolio | React, Firebase, TypeScript | [Repo](https://github.com/eranCat/painter-portfolio-website) |
 
 ## Running Locally
 
-No build step needed — just open `index.html` in a browser, or serve it with any static server:
-
 ```bash
+git clone https://github.com/eranCat/portfolio-site.git
+cd portfolio-site
+# Open index.html in your browser or use a local server
 npx serve .
-# or
-python3 -m http.server
 ```
 
 ## Contact
 
-- Email: [eranka12@gmail.com](mailto:eranka12@gmail.com)
-- LinkedIn: [linkedin.com/in/eran-karaso-182965176](https://www.linkedin.com/in/eran-karaso-182965176)
-- GitHub: [github.com/eranCat](https://github.com/eranCat)
+- **GitHub:** [github.com/eranCat](https://github.com/eranCat)
+- **Site:** [erancat.github.io/portfolio-site](https://erancat.github.io/portfolio-site)
